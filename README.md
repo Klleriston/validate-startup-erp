@@ -11,7 +11,7 @@ src/
  └── main/
       └── java/
            └── com/
-                └── seuProjeto/
+                └── validate-startup-erp/
                      ├── domain/                
                      │    ├── model/            
                      │    │    ├── User.java
