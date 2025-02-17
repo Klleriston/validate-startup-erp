@@ -1,13 +1,13 @@
 package com.klleriston.startupideaserp.application.useCase;
 
-import com.klleriston.startupideaserp.infra.repository.VotesRepository;
+import com.klleriston.startupideaserp.infra.repository.VotesRepositoryImpl;
 import org.springframework.stereotype.Service;
 
 @Service
 public class VotesUseCase {
-    private final VotesRepository votesRepository;
+    private final VotesRepositoryImpl votesRepositoryImpl;
 
-    public VotesUseCase(VotesRepository votesRepository) {
-        this.votesRepository = votesRepository;
+    public VotesUseCase(VotesRepositoryImpl votesRepositoryImpl) {
+        this.votesRepositoryImpl = votesRepositoryImpl;
     }
 }

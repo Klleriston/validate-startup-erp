@@ -1,13 +1,13 @@
 package com.klleriston.startupideaserp.application.useCase;
 
-import com.klleriston.startupideaserp.infra.repository.CommentsRepository;
+import com.klleriston.startupideaserp.infra.repository.CommentsRepositoryImpl;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CommentsUseCase {
-    private final CommentsRepository commentsRepository;
+    private final CommentsRepositoryImpl commentsRepositoryImpl;
 
-    public CommentsUseCase(CommentsRepository commentsRepository) {
-        this.commentsRepository = commentsRepository;
+    public CommentsUseCase(CommentsRepositoryImpl commentsRepositoryImpl) {
+        this.commentsRepositoryImpl = commentsRepositoryImpl;
     }
 }

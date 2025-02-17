@@ -1,14 +1,14 @@
 package com.klleriston.startupideaserp.application.useCase;
 
-import com.klleriston.startupideaserp.infra.repository.UserRepository;
+import com.klleriston.startupideaserp.infra.repository.UserRepositoryImpl;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserUseCase {
-    private final UserRepository userRepository;
+    private final UserRepositoryImpl userRepositoryImpl;
 
-    public UserUseCase(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserUseCase(UserRepositoryImpl userRepositoryImpl) {
+        this.userRepositoryImpl = userRepositoryImpl;
     }
 
 
