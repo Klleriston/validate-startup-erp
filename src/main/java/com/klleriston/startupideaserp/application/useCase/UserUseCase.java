@@ -10,4 +10,6 @@ public class UserUseCase {
     public UserUseCase(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
+
 }

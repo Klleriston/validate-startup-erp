@@ -1,23 +1,17 @@
-package com.klleriston.startupideaserp.domain.model;
+package com.klleriston.startupideaserp.application.dto;
 
 import com.klleriston.startupideaserp.domain.enuns.VoteType;
+import com.klleriston.startupideaserp.domain.model.Idea;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Document(collection = "votes")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Votes {
-    @Id
+public class VotesDTO {
     private String id;
-
     private String userId;
-
     private Idea ideaId;
-
     private VoteType vote;
 }
