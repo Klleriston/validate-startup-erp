@@ -25,7 +25,7 @@ public class User {
 
     private Role role;
 
-    private List<Idea> ideasIds;
+    private List<String> ideasIds;
 
-    private List<Collaboration> collaborationsIds;
+    private List<String> collaborationsIds;
 }

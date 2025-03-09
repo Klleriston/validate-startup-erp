@@ -17,12 +17,8 @@ public class UserMapper {
                 user.getName(),
                 user.getEmail(),
                 user.getRole(),
-                user.getIdeasIds().stream()
-                        .map(Idea::getId)
-                        .collect(Collectors.toList()),
-                user.getCollaborationsIds().stream()
-                        .map(Collaboration::getId)
-                        .collect(Collectors.toList())
+                user.getIdeasIds(),
+                user.getCollaborationsIds()
         );
     }
 
@@ -32,12 +28,8 @@ public class UserMapper {
                 userDTO.getName(),
                 userDTO.getEmail(),
                 userDTO.getRole(),
-                userDTO.getIdeasIds().stream()
-                        .map(Idea::new)
-                        .collect(Collectors.toList()),
-                userDTO.getCollaborationsIds().stream()
-                        .map(Collaboration::new)
-                        .collect(Collectors.toList())
+                userDTO.getIdeasIds(),
+                userDTO.getCollaborationsIds()
         );
     }
 }
