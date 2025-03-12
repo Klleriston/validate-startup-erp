@@ -1,7 +1,7 @@
 package com.klleriston.startupideaserp.application.useCase;
 
 import com.klleriston.startupideaserp.domain.model.Idea;
-import com.klleriston.startupideaserp.infra.repository.IdeaRepositoryImpl;
+import com.klleriston.startupideaserp.infra.repository.IdeaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +9,10 @@ import java.util.List;
 
 @Service
 public class IdeaUseCase {
-    private final IdeaRepositoryImpl ideaRepositoryImpl;
+    private final IdeaRepository ideaRepositoryImpl;
 
     @Autowired
-    public IdeaUseCase(IdeaRepositoryImpl ideaRepositoryImpl) {
+    public IdeaUseCase(IdeaRepository ideaRepositoryImpl) {
         this.ideaRepositoryImpl = ideaRepositoryImpl;
     }
 

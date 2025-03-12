@@ -20,7 +20,6 @@ public class User {
 
     private String name;
 
-    @Indexed(unique = true)
     private String email;
 
     private Role role;

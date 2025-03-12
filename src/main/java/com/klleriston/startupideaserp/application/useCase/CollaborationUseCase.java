@@ -1,7 +1,7 @@
 package com.klleriston.startupideaserp.application.useCase;
 
 import com.klleriston.startupideaserp.domain.model.Collaboration;
-import com.klleriston.startupideaserp.infra.repository.CollaborationRepositoryImpl;
+import com.klleriston.startupideaserp.infra.repository.CollaborationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,27 +9,31 @@ import java.util.List;
 
 @Service
 public class CollaborationUseCase {
-    private final CollaborationRepositoryImpl collaborationRepositoryImpl;
+    private final CollaborationRepository collaborationRepository;
 
     @Autowired
-    public CollaborationUseCase(CollaborationRepositoryImpl collaborationRepositoryImpl) {
-        this.collaborationRepositoryImpl = collaborationRepositoryImpl;
+    public CollaborationUseCase(CollaborationRepository collaborationRepository) {
+        this.collaborationRepository = collaborationRepository;
     }
 
     public Collaboration save(Collaboration collaboration) {
-        return collaborationRepositoryImpl.save(collaboration);
+        return collaborationRepository.save(collaboration);
     }
 
     public List<Collaboration> listAllCollaborations() {
-        return collaborationRepositoryImpl.findAll();
+        return collaborationRepository.findAll();
     }
 
     public Collaboration update(Collaboration collaboration) {
-        Collaboration existingCollaboration = collaborationRepositoryImpl.findById(collaboration.getId()).orElseThrow(() -> new IllegalStateException("Collaboration with id " + collaboration.getId() + " not found"));
+        Collaboration existingCollaboration = collaborationRepository.findById(collaboration.getId()).orElseThrow(() -> new IllegalStateException("Collaboration with id " + collaboration.getId() + " not found"));
 
         existingCollaboration.setStatus(collaboration.getStatus());
         existingCollaboration.setMessage(collaboration.getMessage());
 
-        return collaborationRepositoryImpl.save(existingCollaboration);
+        return collaborationRepository.save(existingCollaboration);
+    }
+
+    public void delete(String id) {
+        collaborationRepository.deleteById(id);
     }
 }
