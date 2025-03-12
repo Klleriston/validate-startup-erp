@@ -19,12 +19,6 @@ src/
                      │    │    ├── Comment.java
                      │    │    ├── Vote.java
                      │    │    └── Collaboration.java
-                     │    └── repository/       
-                     │         ├── UserRepository.java
-                     │         ├── IdeaRepository.java
-                     │         ├── CommentRepository.java
-                     │         ├── VoteRepository.java
-                     │         └── CollaborationRepository.java
                      │
                      ├── application/           
                      │    ├── dto/              
@@ -42,11 +36,11 @@ src/
                      │
                      ├── infrastructure/        
                      │    └── repository/       
-                     │         ├── UserRepositoryImpl.java
-                     │         ├── IdeaRepositoryImpl.java
-                     │         ├── CommentRepositoryImpl.java
-                     │         ├── VoteRepositoryImpl.java
-                     │         └── CollaborationRepositoryImpl.java
+                     │         ├── UserRepository.java
+                     │         ├── IdeaRepository.java
+                     │         ├── CommentRepository.java
+                     │         ├── VoteRepository.java
+                     │         └── CollaborationRepository.java
                      │
                      └── adapters/              
                           ├── controller/       
@@ -55,12 +49,6 @@ src/
                           │    ├── CommentController.java
                           │    ├── VoteController.java
                           │    └── CollaborationController.java
-                          └── mapper/           
-                               ├── UserMapper.java
-                               ├── IdeaMapper.java
-                               ├── CommentMapper.java
-                               ├── VoteMapper.java
-                               └── CollaborationMapper.java
 ```
 
 ## Funcionalidades Principais
