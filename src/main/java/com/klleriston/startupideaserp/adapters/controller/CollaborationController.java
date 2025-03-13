@@ -2,7 +2,7 @@ package com.klleriston.startupideaserp.adapters.controller;
 
 import com.klleriston.startupideaserp.application.useCase.CollaborationUseCase;
 import com.klleriston.startupideaserp.domain.model.Collaboration;
-import com.klleriston.startupideaserp.domain.model.Comments;
+import com.klleriston.startupideaserp.infra.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,19 +11,30 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/collaboartion")
+@RequestMapping("/api/collaboration")
 public class CollaborationController {
     private final CollaborationUseCase collaborationUseCase;
+    private final UserRepository userRepository;
 
     @Autowired
-    public CollaborationController(CollaborationUseCase collaborationUseCase) {
+    public CollaborationController(CollaborationUseCase collaborationUseCase, UserRepository userRepository) {
         this.collaborationUseCase = collaborationUseCase;
+        this.userRepository = userRepository;
     }
 
     @PostMapping
     public ResponseEntity<Collaboration> saveCollaboration(@RequestBody Collaboration collaboration) {
-        Collaboration collaborationSaved = collaborationUseCase.save(collaboration);
-        return new ResponseEntity<>(collaborationSaved, HttpStatus.CREATED);
+        if (collaboration.getCollaboratorId() != null &&
+                userRepository.existsById(collaboration.getCollaboratorId())) {
+            Collaboration collaborationSaved = collaborationUseCase.save(collaboration);
+            userRepository.addCollaborationToUser(
+                    collaboration.getCollaboratorId(),
+                    collaborationSaved.getId()
+            );
+            return new ResponseEntity<>(collaborationSaved, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping
@@ -40,8 +51,16 @@ public class CollaborationController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Collaboration> deleteCollaboration(@PathVariable String id, @RequestBody Collaboration collaboration) {
+    public ResponseEntity<Void> deleteCollaboration(@PathVariable String id) {
+        Collaboration collaboration = collaborationUseCase.findById(id);
+        if (collaboration != null && collaboration.getCollaboratorId() != null) {
+            userRepository.removeCollaborationFromUser(
+                    collaboration.getCollaboratorId(),
+                    id
+            );
+        }
+
         collaborationUseCase.delete(id);
-        return new ResponseEntity<>(collaboration, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -9,33 +9,42 @@ import java.util.List;
 
 @Service
 public class IdeaUseCase {
-    private final IdeaRepository ideaRepositoryImpl;
+    private final IdeaRepository ideaRepository;
 
     @Autowired
-    public IdeaUseCase(IdeaRepository ideaRepositoryImpl) {
-        this.ideaRepositoryImpl = ideaRepositoryImpl;
+    public IdeaUseCase(IdeaRepository ideaRepository) {
+        this.ideaRepository = ideaRepository;
     }
 
     public Idea save(Idea idea) {
-        return ideaRepositoryImpl.save(idea);
+        return ideaRepository.save(idea);
     }
 
     public List<Idea> listAllIdeas() {
-        return ideaRepositoryImpl.findAll();
+        return ideaRepository.findAll();
+    }
+
+    public List<Idea> findByUserId(String userId) {
+        return ideaRepository.findByUserId(userId);
+    }
+
+    public Idea findById(String id) {
+        return ideaRepository.findById(id).orElse(null);
     }
 
     public Idea update(Idea idea) {
-        Idea existingIdea = ideaRepositoryImpl.findById(idea.getId()).orElseThrow(() -> new IllegalArgumentException("Idea with id " + idea.getId() + " not found"));
+        Idea existingIdea = ideaRepository.findById(idea.getId())
+                .orElseThrow(() -> new IllegalArgumentException("Idea with id " + idea.getId() + " not found"));
 
         existingIdea.setTitle(idea.getTitle());
         existingIdea.setDescription(idea.getDescription());
         existingIdea.setCategory(idea.getCategory());
         existingIdea.setStatus(idea.getStatus());
 
-        return ideaRepositoryImpl.save(existingIdea);
+        return ideaRepository.save(existingIdea);
     }
 
     public void deleteIdea(String id) {
-        ideaRepositoryImpl.deleteById(id);
+        ideaRepository.deleteById(id);
     }
 }

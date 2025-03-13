@@ -24,9 +24,7 @@ public class VotesUseCase {
 
     public Votes update(Votes votes) {
         Votes existingVotes = votesRepository.findById(votes.getId()).orElseThrow(() -> new RuntimeException("Votes with id" + votes.getId() + " not found"));
-
         existingVotes.setVote(votes.getVote());
-
         return votesRepository.save(existingVotes);
     }
 

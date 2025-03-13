@@ -2,6 +2,7 @@ package com.klleriston.startupideaserp.adapters.controller;
 
 import com.klleriston.startupideaserp.application.useCase.IdeaUseCase;
 import com.klleriston.startupideaserp.domain.model.Idea;
+import com.klleriston.startupideaserp.infra.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,21 +14,37 @@ import java.util.List;
 @RequestMapping("/api/idea")
 public class IdeaController {
     private final IdeaUseCase ideaUseCase;
+    private final UserRepository userRepository;
 
     @Autowired
-    public IdeaController(IdeaUseCase ideaUseCase) {
+    public IdeaController(IdeaUseCase ideaUseCase, UserRepository userRepository) {
+        this.userRepository = userRepository;
         this.ideaUseCase = ideaUseCase;
     }
 
     @PostMapping
     public ResponseEntity<Idea> addIdea(@RequestBody Idea idea) {
-        Idea savedIdea = ideaUseCase.save(idea);
-        return new ResponseEntity<>(savedIdea, HttpStatus.CREATED);
+        if (idea.getUserId() != null && userRepository.existsById(idea.getUserId())) {  // Fixed: Check userId not id
+            Idea savedIdea = ideaUseCase.save(idea);
+            userRepository.addIdeaToUser(idea.getUserId(), savedIdea.getId());
+            return new ResponseEntity<>(savedIdea, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping
     public ResponseEntity<List<Idea>> getAllIdeas() {
         List<Idea> ideas = ideaUseCase.listAllIdeas();
+        return new ResponseEntity<>(ideas, HttpStatus.OK);
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Idea>> getIdeasByUser(@PathVariable String userId) {
+        if (!userRepository.existsById(userId)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        List<Idea> ideas = ideaUseCase.findByUserId(userId);
         return new ResponseEntity<>(ideas, HttpStatus.OK);
     }
 
@@ -39,8 +56,13 @@ public class IdeaController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Idea> deleteIdea(@PathVariable String id,@RequestBody Idea idea) {
+    public ResponseEntity<Void> deleteIdea(@PathVariable String id) {
+        Idea idea = ideaUseCase.findById(id);
+        if (idea != null && idea.getUserId() != null) {
+            userRepository.removeIdeaFromUser(idea.getUserId(), id);
+        }
+
         ideaUseCase.deleteIdea(id);
-        return new ResponseEntity<>(idea, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

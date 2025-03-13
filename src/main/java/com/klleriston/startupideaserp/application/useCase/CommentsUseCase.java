@@ -26,9 +26,7 @@ public class CommentsUseCase {
 
     public Comments update(Comments comments) {
         Comments existingComments = commentsRepository.findById(comments.getId()).orElseThrow(() -> new IllegalArgumentException("Comment with id " + comments.getId() + " not found"));
-
         existingComments.setContent(comments.getContent());
-
         return commentsRepository.save(existingComments);
     }
 

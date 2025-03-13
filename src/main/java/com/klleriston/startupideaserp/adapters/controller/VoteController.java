@@ -3,7 +3,6 @@ package com.klleriston.startupideaserp.adapters.controller;
 import com.klleriston.startupideaserp.application.useCase.VotesUseCase;
 import com.klleriston.startupideaserp.domain.model.Votes;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,12 +34,13 @@ public class VoteController {
     @PutMapping("/{id}")
     public ResponseEntity<Votes> updateVote(@PathVariable String id, @RequestBody Votes votes) {
         votes.setId(id);
-        return new ResponseEntity<>(votes, HttpStatus.OK);
+        Votes updatedVote = votesUseCase.update(votes);
+        return new ResponseEntity<>(updatedVote, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Votes> deleteVote(@PathVariable String id, @RequestBody Votes votes) {
+    public ResponseEntity<Void> deleteVote(@PathVariable String id) {
         votesUseCase.deleteVote(id);
-        return new ResponseEntity<>(votes, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

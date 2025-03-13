@@ -24,8 +24,14 @@ public class CollaborationUseCase {
         return collaborationRepository.findAll();
     }
 
+    public Collaboration findById(String id) {
+        return collaborationRepository.findById(id).orElse(null);
+    }
+
     public Collaboration update(Collaboration collaboration) {
-        Collaboration existingCollaboration = collaborationRepository.findById(collaboration.getId()).orElseThrow(() -> new IllegalStateException("Collaboration with id " + collaboration.getId() + " not found"));
+        Collaboration existingCollaboration = collaborationRepository.findById(collaboration.getId())
+                .orElseThrow(() -> new IllegalStateException(
+                        "Collaboration with id " + collaboration.getId() + " not found"));
 
         existingCollaboration.setStatus(collaboration.getStatus());
         existingCollaboration.setMessage(collaboration.getMessage());

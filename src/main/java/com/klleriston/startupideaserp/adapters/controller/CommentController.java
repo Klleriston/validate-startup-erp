@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
 @RequestMapping("/api/comment")
 public class CommentController {
@@ -40,8 +39,8 @@ public class CommentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Comments> deleteComment(@PathVariable String id, @RequestBody Comments comment) {
+    public ResponseEntity<Void> deleteComment(@PathVariable String id) {
         commentsUseCase.deleteComment(id);
-        return new ResponseEntity<>(comment, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
